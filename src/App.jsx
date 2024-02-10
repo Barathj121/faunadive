@@ -4,7 +4,6 @@ import Login from './pages/login';
 import BuyerHome from './pages/buyer/buyerhome';
 import SellerHome from './pages/seller/sellerhome';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
 function App() {
   return (
     <Router>
@@ -13,7 +12,9 @@ function App() {
         <Route path="/Buyers" element={<BuyerHome />} />
         <Route path="/Sellers" element={<SellerHome />} />
       </Routes>
+      
     </Router>
+    
   );
 }
 
