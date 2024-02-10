@@ -4,7 +4,15 @@ import Login from './pages/login';
 import BuyerHome from './pages/buyer/buyerhome';
 import SellerHome from './pages/seller/sellerhome';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+
+
 function App() {
+
+  // II) market details , put a sell offer to the buyer so if buyer satisfies he can accept offer 
+
+  // III) chatbot integration that answers regarding fishes
+
   return (
     <Router>
       <Routes>

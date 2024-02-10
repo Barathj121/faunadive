@@ -20,6 +20,7 @@ function Login(){
       await setDoc(userRef, {
         uid: user.uid,
         email: user.email,
+        buyername: user.displayName,
         // add any other user data you want to save
       });
 
@@ -31,13 +32,13 @@ function Login(){
 
   return (
     <div>
-      {/* <h1>Login</h1>
+      <h1>Login</h1>
       
       <select onChange={(e) => setUserType(e.target.value)}>
         <option value="Buyers">Buyer</option>
         <option value="Sellers">Seller</option>
       </select>
-      <button onClick={handleLogin}>Login</button> */}
+      <button onClick={handleLogin}>Login</button>
     
       
     </div>
