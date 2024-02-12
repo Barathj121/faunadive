@@ -98,3 +98,18 @@ const [schedule, setSchedule] = useState([]);
 }
 
 export default sellerhome;
+
+//i/p:
+//[commmunity1,commmunity2,commmunity3,commmunity4,commmunity5,commmunity6,commmunity7]
+
+//o/p:
+//{
+//   schedule:
+//   {community1:["SATURDAY","salon","net1"]},
+//   {community2:["SATURDAY","salon","net1"]},
+//   {community3:["SATURDAY","salon","net1"]},
+//   {community4:["SATURDAY","salon","net1"]},
+//   {community5:["SATURDAY","salon","net1"]
+//   {community6:["SATURDAY","salon","net1"]},
+//   {community7:["SUNDAY","touna","net1"]},
+// }
