@@ -160,8 +160,54 @@ function Sellerprofile() {
         });
 
       }
+      const scheduleapi="https://samplefauna.onrender.com/schedule/?community_data=";
+      const [schedule, setSchedule] = useState([]);
+      
+    function scheduledetails(community){
+      
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`${scheduleapi}${community}`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const json = await response.json();
+          console.log(json);
+          setSchedule(json.schedule);
+        } catch (error) {
+          console.error('There was an error!', error);
+        } finally {
+          console.log('finally');
+        }
+      };
+      fetchData(),[];
+      }
 
-
+      const handleInputSubmit = async (communityName, fishName, amount) => {
+        // Query the fishcaught collection to find the community document
+        const fishCaughtRef = collection(db, 'fishcaught');
+        const q = query(fishCaughtRef, where('community_name', '==', communityName));
+        const querySnapshot = await getDocs(q);
+      
+        // If a matching document is found
+        if (!querySnapshot.empty) {
+          const communityDoc = querySnapshot.docs[0];
+          const community = communityDoc.data();
+      
+          // Find the index of the fish name
+          const fishIndex = community.fish_name.indexOf(fishName);
+      
+          if (fishIndex !== -1) {
+            // Add the amount to the amount_caught at the corresponding index
+            amount=Number(amount);
+            community.amount_caught[fishIndex] += amount;
+      
+            // Update the amount_caught array in the community document
+            await updateDoc(communityDoc.ref, { amount_caught: community.amount_caught });
+            alert("update done");
+          }
+        }
+      };
 
       
     
@@ -199,9 +245,31 @@ function Sellerprofile() {
                   </div>
                 </div>
 
+                <br/>
+                <br/>
+                <button onClick={() => scheduledetails(sellercommunity)} className=" border-2 ">Get Schedule</button>
+                <div>
+                    <h2>Schedule</h2>
+                    <ul className='flex flex-col gap-5'>
+                      {Object.entries(schedule).map(([fish, gear]) => (
+                        <li key={fish}>
+                          <p>Fish name : {fish}</p>
+                          <p>Gear : {gear}</p>
+                          <input className="border-2" type="number" min="0" id="amount-input" />
+                          <button className="border-2" onClick={() => handleInputSubmit(sellercommunity, fish, document.getElementById(`amount-input`).value)}>Submit</button>
+                        </li>
+                        
+                      ))}
+                    </ul>
+                  </div>
+                <br/>
+                <br/>
+            
+
               
 
                <div>
+                <h1>working and overtime</h1>
                   {isEditing ? (
                       <div>
                         <input type="number" value={worktime} onChange={(e) => setWorktime(e.target.value)} />

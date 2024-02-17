@@ -1,6 +1,6 @@
 import { list } from 'postcss';
 import React, { useState, useEffect } from 'react';
-import { collection, addDoc,getDocs, query, where, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc,getDocs,getDoc, query, where, doc, updateDoc } from "firebase/firestore";
 import { auth,db } from "../../config";
 import {onAuthStateChanged} from "firebase/auth";
 import Sellerprofile from './profile';
@@ -37,29 +37,35 @@ function Sellerhome() {
 //     fetchData();
 //   }, []);
 
-const scheduleapi="https://serious.onrender.com/schedule/";
-const [schedule, setSchedule] = useState([]);
 
 
-    function scheduledetails(){
-      
-      const fetchData = async () => {
-        try {
-          const response = await fetch(scheduleapi);
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const json = await response.json();
-          console.log(response);
-          setSchedule(json);
-        } catch (error) {
-          console.error('There was an error!', error);
-        } finally {
-          console.log('finally');
-        }
-      };
-      fetchData(),[];
-      }
+const [communityName, setCommunityName] = useState('');
+
+useEffect(() => {
+  const fetchSellerProfile = async () => {
+    const sellerProfileRef = doc(db, 'Sellers', auth.currentUser.uid);
+    const sellerProfileDoc = await getDoc(sellerProfileRef);
+
+    if (sellerProfileDoc.exists()) {
+      setCommunityName(sellerProfileDoc.data().community);
+      console.log(communityName);
+    } else {
+      console.log('No such document!');
+    }
+  };
+
+  fetchSellerProfile();
+}, []);
+
+
+
+
+
+
+
+
+
+
 
       const [isHiddenprofile, setIsHiddenprofile] = useState(true);
       const toggleprofile = () => {
@@ -67,7 +73,7 @@ const [schedule, setSchedule] = useState([]);
       };
 
 
-      const [sellername, setSellerName] = useState('');
+    
     
 
 
@@ -76,8 +82,7 @@ const [schedule, setSchedule] = useState([]);
             <h1>Seller Home</h1>
             
             
-            <button onClick={() => scheduledetails()} className=" border-2 ">Get Schedule</button>
-            <pre>{schedule.schedule}</pre>
+            
             <br/>
             <br/>
             <div>
