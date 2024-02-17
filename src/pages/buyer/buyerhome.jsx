@@ -259,3 +259,7 @@ const fetchMyOffers = async () => {
 }
 
 export default buyerhome;
+
+
+
+

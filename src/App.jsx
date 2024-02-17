@@ -3,6 +3,7 @@ import './App.css';
 import Login from './pages/login';
 import BuyerHome from './pages/buyer/buyerhome';
 import SellerHome from './pages/seller/sellerhome';
+import Sellerprofile from './pages/seller/profile';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/Buyers" element={<BuyerHome />} />
         <Route path="/Sellers" element={<SellerHome />} />
+        {/* <Route path="/sellerprofile" element={<Sellerprofile />}/> */}
       </Routes>
       
     </Router>
