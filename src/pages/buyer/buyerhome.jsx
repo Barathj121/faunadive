@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import { collection, addDoc,getDocs, query, where, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc,getDocs,getDoc, query, where, doc, updateDoc } from "firebase/firestore";
 import { auth,db } from "../../config";
 import {onAuthStateChanged} from "firebase/auth";
 import lohh from "../../assets/bgbb.jpg"
@@ -98,10 +98,12 @@ const addOffer = async (e) => {
       });
   
       console.log("market doc added with id", docRef.id);
+      
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
+  
 
 
 //   const editOffer = async (e) => {
@@ -126,6 +128,9 @@ const fetchMyOffers = async () => {
     const offersSnapshot = await getDocs(offersQuery);
     const offersList = offersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     setMyOffers(offersList);
+   
+    console.log(communities);
+    
   };
 
   const handleUpdateOffer = async (event) => {
@@ -141,10 +146,62 @@ const fetchMyOffers = async () => {
   
     // Fetch the offers
     fetchMyOffers();
+    
   
     setEditOfferId(null);
   };
 
+  const [communities, setCommunities] = useState([]);
+  const fetchCommunitiesWithFish = async (fishName) => {
+    const communitiesRef = collection(db, 'fishcaught');
+    const q = query(communitiesRef, where('fish_name', 'array-contains', fishName));
+    const querySnapshot = await getDocs(q);
+    const communitiesList = querySnapshot.docs.map(doc => doc.data());
+    setCommunities(communitiesList);
+    console.log(communities);
+  };
+
+  const handleBuyFish = async (community, fishName, quantity) => {
+    // Subtract the quantity from the amount_caught of the fish in the community
+    const fishIndex = community.fish_name.indexOf(fishName);
+    if (fishIndex !== -1) {
+      community.amount_caught[fishIndex] =community.amount_caught[fishIndex]- quantity;
+  
+
+  
+      // Add a new document to the storage collection
+      const storageCollection = collection(db, 'storage');
+      await addDoc(storageCollection, {
+        fishname: fishName,
+        community_name: community.community_name,
+        storage_amount: community.amount_caught[fishIndex],
+      });
+    }
+  };
+  const [communitiesWithStorage, setCommunitiesWithStorage] = useState([]);
+  const [storagesub, setstoragesub] = useState(0);
+  const fetchCommunitiesWithStorage = async (fishName) => {
+    const storageRef = collection(db, 'storage');
+    const q = query(storageRef, where('fishname', '==', fishName));
+    const querySnapshot = await getDocs(q);
+    const communitiesList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setCommunitiesWithStorage(communitiesList);
+    console.log(communitiesWithStorage);
+  };
+
+  const handleTakeFish = async (communityId, amount) => {
+    // Subtract the amount from the storage_amount of the community
+    const communityRef = doc(db, 'storage', communityId);
+    const communitySnapshot = await getDoc(communityRef);
+    const community = communitySnapshot.data();
+  
+    if (community.storage_amount >= amount) {
+      community.storage_amount -= amount;
+  
+      // Update the community in the storage collection
+      await updateDoc(communityRef, { storage_amount: community.storage_amount });
+    }
+  };
 
 
     return (
@@ -161,12 +218,7 @@ const fetchMyOffers = async () => {
                         <input  onChange={(e) => setQuantity(e.target.value)} type="text" placeholder="Enter quantity" />
                         <input  onChange={(e) => setPrice(e.target.value)} type="text" placeholder="Enter price" />
                         
-                        <div name="view sellers" className="hidden">
-                            <h2>look for available sellers of the fish type</h2>
-                            <div>
-                                
-                            </div>
-                        </div>
+                        
                         <button  onClick={addOffer} className="border-2 rounded-lg border-gray-400 text-black w-20" >Submit</button>    
                         
                     </form>                    
@@ -199,6 +251,40 @@ const fetchMyOffers = async () => {
                             <option value="closed">Closed</option>
 
                         </select><br></br>
+                        <br/>
+                        <div className="flex flex-row gap-2">
+                        <div >
+                          <h2>look for suggested sellers </h2>
+                          <div>
+                            <ul>
+                              {communities.map((community, index) => (
+                                <li key={index}>
+                                  {community.community_name}
+                                  <br/>
+                                  {community.fish_name.map((fish, index) => (
+                                    fish === editFishName ? community.amount_caught[index] : null
+                                  ))}
+                                  <br/>
+                                  <button onClick={() => handleBuyFish(community, editFishName, editQuantity)}>Buy</button>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                          <div>
+                              <h1>storage to buy immediately</h1>
+                              {communitiesWithStorage.map((community) => (
+                                <div key={community.id}>
+                                  <h2>{community.community_name}</h2>
+                                  <p>{community.storage_amount}</p>
+                                  <input type="number" min="0" max={community.storage_amount} defaultValue="0" id={`amount-${community.id}`} onChange={(e)=>setstoragesub(e.target.value)} />
+                                  <button onClick={() => handleTakeFish(community.id, storagesub)}>Take Fish</button>
+                                </div>
+                              ))}
+
+                          </div>
+                        </div>
+                        <br/>
                         <button className="border-2 text-black rounded-lg border-gray-400 " type="submit">Update</button>
                     </form>
                     </div>
@@ -214,6 +300,8 @@ const fetchMyOffers = async () => {
                         setEditFishName(offer.fishname);
                         setEditQuantity(offer.quantity);
                         setEditPrice(offer.price);
+                        fetchCommunitiesWithFish(offer.fishname);
+                        fetchCommunitiesWithStorage(offer.fishname);
                         }}>Edit</button>
                         <br />
                         </div>

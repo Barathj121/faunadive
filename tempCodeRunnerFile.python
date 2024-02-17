@@ -1,0 +1,49 @@
+import firebase_admin
+from firebase_admin import credentials, firestore
+import random
+
+# Initialize Firebase Admin SDK with credentials
+cred = credentials.Certificate(r"E:\DISK D\projects\solutions challenge\dataset\pyfirebasesdk.json")
+firebase_admin.initialize_app(cred)
+
+# Create a Firestore client
+db = firestore.client()
+
+# Define the list of fishes
+fishes = [
+    "Salmon", "Tuna", "Cod", "Trout", "Sardines", "Haddock", "Mackerel",
+    "Halibut", "Perch", "Catfish", "Grouper", "Snapper", "Mahi Mahi",
+    "Carp", "Swordfish", "Yellowtail", "Herring", "Anchovies"
+]
+community_names = ["community1", "community2", "community3", "community4", "community5",
+                   "community6", "community7", "community8", "community9", "community10"]
+fishcatch=[100,200,400,100,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800]
+
+# Initialize a batched write
+batch = db.batch()
+
+# Update 4 subcollections for each community in a single batch
+for community_name in community_names:
+    # Shuffle the list of fishes
+    fish_name=[random.choice(fishes) for i in range(4)]
+    amount_caught=[random.choice(fishcatch) for i in range(4)]
+    
+    
+    
+    # Create a document reference without specifying the document ID (Firestore will auto-generate one)
+    doc_ref = db.collection("fishcaught").document()
+
+    # Set the data for the document
+    doc_data = {
+        "community_name": community_name,
+        "fish_name": fish_name,
+        "amount_caught": amount_caught
+    }
+
+    # Add the set operation to the batch
+    batch.set(doc_ref, doc_data)
+
+# Commit the batched write operation
+batch.commit()
+
+print("Data uploaded successfully as a single batch.")
