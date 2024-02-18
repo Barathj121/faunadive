@@ -8,7 +8,11 @@ export default {
     body:['Rubik Doodle Shadow']
   },
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+       skin:"FFE4C9",
+      },
+    },
   },
   plugins: [],
 }
