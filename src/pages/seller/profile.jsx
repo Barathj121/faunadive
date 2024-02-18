@@ -8,6 +8,7 @@ import {onAuthStateChanged} from "firebase/auth";
 
 
 
+
   
 //1) for each fish each fish demand he can meet approx from seller
 //2) after gointg to fish he has to update how much he caught based on schedule
@@ -140,7 +141,7 @@ function Sellerprofile() {
       }
 
       async function fetchallFish() {
-        const fishCollection = collection(db, 'Fish types');
+        const fishCollection = collection(db, 'fish_data');
         const fishSnapshot = await getDocs(fishCollection);
         const fishList = fishSnapshot.docs.map(doc => doc.data());
         setAllFish(fishList);
@@ -162,25 +163,25 @@ function Sellerprofile() {
       }
       const scheduleapi="https://samplefauna.onrender.com/schedule/?community_data=";
       const [schedule, setSchedule] = useState([]);
+      const [isLoading, setIsLoading] = useState(false);
       
-    function scheduledetails(community){
-      
-      const fetchData = async () => {
-        try {
-          const response = await fetch(`${scheduleapi}${community}`);
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
+      function scheduledetails(community) {
+        const fetchData = async () => {
+          setIsLoading(true);
+          try {
+            const response = await fetch(`${scheduleapi}${community}`);
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const json = await response.json();
+            setSchedule(json.schedule);
+          } catch (error) {
+            console.error('There was an error!', error);
+          } finally {
+            setIsLoading(false);
           }
-          const json = await response.json();
-          console.log(json);
-          setSchedule(json.schedule);
-        } catch (error) {
-          console.error('There was an error!', error);
-        } finally {
-          console.log('finally');
-        }
-      };
-      fetchData(),[];
+        };
+        fetchData();
       }
 
       const handleInputSubmit = async (communityName, fishName, amount) => {
@@ -249,19 +250,37 @@ function Sellerprofile() {
                 <br/>
                 <button onClick={() => scheduledetails(sellercommunity)} className=" border-2 ">Get Schedule</button>
                 <div>
-                    <h2>Schedule</h2>
-                    <ul className='flex flex-col gap-5'>
-                      {Object.entries(schedule).map(([fish, gear]) => (
-                        <li key={fish}>
-                          <p>Fish name : {fish}</p>
-                          <p>Gear : {gear}</p>
-                          <input className="border-2" type="number" min="0" id="amount-input" />
-                          <button className="border-2" onClick={() => handleInputSubmit(sellercommunity, fish, document.getElementById(`amount-input`).value)}>Submit</button>
-                        </li>
-                        
-                      ))}
-                    </ul>
-                  </div>
+                  {isLoading ? (
+                    <div style={{
+                      position: 'fixed',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      zIndex: 9999,
+                      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                      <img src="./loading.gif" alt="Loading..." />
+                    </div>
+                  ) : (
+                    <div>
+                      <h2>Schedule</h2>
+                      <ul className='flex flex-col gap-5'>
+                        {Object.entries(schedule).map(([fish, gear]) => (
+                          <li key={fish}>
+                            <p>Fish name : {fish}</p>
+                            <p>Gear : {gear}</p>
+                            <input className="border-2" type="number" min="0" id="amount-input" />
+                            <button className="border-2" onClick={() => handleInputSubmit(sellercommunity, fish, document.getElementById(`amount-input`).value)}>Submit</button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
                 <br/>
                 <br/>
             
