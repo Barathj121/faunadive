@@ -5,6 +5,8 @@ import { auth,db } from "../../config";
 import Header from '../../components/header';
 import {onAuthStateChanged} from "firebase/auth";
 import Sellerprofile from './profile';
+import profileimage from './profile.png';
+import refreshicon from './refresh.png';
 
 function Sellerhome() {
 
@@ -79,7 +81,7 @@ useEffect(() => {
 
 
     return (
-        <div>
+        <div className='bg-[#FFF7F1] h-[100]%'>
             
             
             
@@ -87,10 +89,42 @@ useEffect(() => {
             <br/>
             <br/>
             <div>
-              <div className='flex gap-2'>
-              <h1>profile page</h1>
-              <button onClick={()=>toggleprofile()} className='border-2'>Click to view profile</button>
+              <h1 className='text-2xl'>News and market Analysis</h1>
+              
+              <div>
+                
+              <div className="h-1 w-[23%] rounded bg-[#E78895]"></div>
               </div>
+              <br/>
+              <div className='flex flex-row gap-6  ml-6'>
+                <div className='bg-[#FFE4C9] rounded-lg h-[20%] w-[15%] flex flex-col gap-2 pd-2 mt-2'>
+                  <h1 className='h-full w-[100%] mt-2 text-center'>Fish Name :    Salmon</h1>
+                  <h1 className='h-full w-[100%] mb-2 text-center'>Demand  :  1800kg</h1>
+                </div>
+                <div className='bg-[#FFE4C9] rounded-lg h-[20%] w-[15%] flex flex-col gap-2 pd-2 mt-2'>
+                  <h1 className='h-full w-[100%] mt-2 text-center'>Fish Name :    Touna</h1>
+                  <h1 className='h-full w-[100%] mb-2 text-center'>Demand  :  2000kg</h1>
+              </div>
+              <div className='bg-[#FFE4C9] rounded-lg h-[20%] w-[15%] flex flex-col gap-2 pd-2 mt-2'>
+                  <h1 className='h-full w-[100%] mt-2 text-center'>Fish Name :    Touna</h1>
+                  <h1 className='h-full w-[100%] mb-2 text-center'>Demand  :  2000kg</h1>
+              </div>
+
+      
+                
+                
+              </div>
+            </div>
+            <br/>
+            <br/>
+            
+            <div className='flex-col flex items-center justify-center'>
+              <div className='flex flex-row '>
+              <img src={profileimage} className='h-[50px] w-[50px]'></img>
+              <button onClick={()=>toggleprofile()} className=' border-2 bg-[#E78895] text-center h-[40px] rounded-lg w-[200px] w-full'>Click to view profile</button>
+              </div>
+              <br/>
+              <br/>
               <div className={`${isHiddenprofile ? 'hidden' : ''}`}>
                 <Sellerprofile/>
               </div>

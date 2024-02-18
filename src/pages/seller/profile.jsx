@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, addDoc,getDocs,getDoc, query, where, doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { auth,db } from '../../config';
 import {onAuthStateChanged} from "firebase/auth";
+import refreshicon from './refresh.png';
 
 
 
@@ -218,23 +219,26 @@ function Sellerprofile() {
 
 
     return (
-        <div>
-            <h1>sellerprofile</h1>
+        <div className='bg-[#FFE4C9] rounded-lg h-full w-[1200px]   flex flex-col'>
+ 
+          <div className='flex flex-row gap-2 ml-2 ml-auto mt-2'>
+            <img src={refreshicon} className='h-[35px] w-[35px]'></img>
+            <button className=" border-2 bg-[#BED1CF] rounded-[100px] h-[40px] w-[230px]" onClick={()=>checklogin()}>Click to Update details</button>
+            
+          </div>
 
             <br/>
-            <br/>
-            
-            <button className=" border-2" onClick={()=>checklogin()}>checklogin</button>
-            <br/>
             <div>
-                <h1>name is {sellername||"sampleanme"}</h1>
+                <h1 className='border-2 bg-[#BED1CF] w-[20%] h-[10%] rounded-[200px] ml-2 text-center'>Name : {sellername}</h1>
                 <br/>
-                <div>
-                  <h1>Community you are part of : {sellercommunity||"Not part of any"}</h1>
-                  <button className='border-2' onClick={()=>fetchcommunity()}>show community</button>
+                <div >
+                  <div className='flex flex-row gap-2'> 
+                  <h1 className='  gap-2 border-2 bg-[#BED1CF] w-[20%] h-[10%] rounded-[200px] ml-2 text-center'>Your Community  : {sellercommunity}</h1>
+                  <button className='border-2 bg-[#E78895] w-[15%] h-[10%] rounded-[200px] ml-2 text-center' onClick={()=>fetchcommunity()}>Load community</button>
+                  </div>
                   <br/>
-                  <div className={`${isHiddencomm ? 'hidden' : ''}`}>
-                  <select onChange={(e)=>setSellerCommunity(e.target.value)}>
+                  <div className={`${isHiddencomm ? 'hidden' : ''} ml-5 flex flex-row gap-3`} >
+                  <select onChange={(e)=>setSellerCommunity(e.target.value)} className='bg-[#FFF7F1] h-[15%] w-[17%] text-center rounded-lg'>
                     {communities.map((community, index) => (
                       <option  key={index} value={community.community_name}>
                         {community.community_name}
@@ -242,13 +246,38 @@ function Sellerprofile() {
                     ))}
                   </select>
               
-                  <button className='border-2' onClick={()=>community()}>Join</button>
+                  <button className='bg-[#FFF7F1] h-[15%] w-[10%] text-center rounded-lg' onClick={()=>community()}>Join</button>
                   </div>
                 </div>
 
                 <br/>
+                {/* <div>
+                <h1>working and overtime</h1>
+                  {isEditing ? (
+                      <div>
+                        <input type="number" value={worktime} onChange={(e) => setWorktime(e.target.value)} />
+                        <input type="number" value={overtime} onChange={(e) => setOvertime(e.target.value)} />
+                        <button className='border-2 bg-[#FFF7F1]' onClick={()=>updatetime()}>Save</button>
+                      </div>
+                    ) : (
+                      <div>
+                        <p>{worktime}</p>
+                        <p>{overtime}</p>
+                        <button className='border-2' onClick={() => setIsEditing(true)}>Edit</button>
+                      </div>
+                    )}
+               </div> */}
+
                 <br/>
-                <button onClick={() => scheduledetails(sellercommunity)} className=" border-2 ">Get Schedule</button>
+
+                <div className='flex flex-row gap-[500px]'>
+                      <div className='flex flex-col items-center ml-10  gap-6'>
+                          <h1 className='text-2xl '>
+                            Your Schedule
+                          </h1>
+                        
+                          <div>
+                          <button onClick={() => scheduledetails(sellercommunity)} className="  bg-[#E78895] rounded-lg h-[30px] w-[200px]">Get Schedule</button>
                 <div>
                   {isLoading ? (
                     <div style={{
@@ -266,15 +295,15 @@ function Sellerprofile() {
                       <img src="./loading.gif" alt="Loading..." />
                     </div>
                   ) : (
-                    <div>
-                      <h2>Schedule</h2>
-                      <ul className='flex flex-col gap-5'>
+                    <div >
+                      <br/>
+                      <ul className='flex flex-col gap-5 items-center justify-center'>
                         {Object.entries(schedule).map(([fish, gear]) => (
-                          <li key={fish}>
+                          <li key={fish} className='bg-[#BED1CF] w-[250px] h-[200px] rounded-lg items-center justify-center text-center mt-2 mb-2 flex flex-col gap-2'>
                             <p>Fish name : {fish}</p>
                             <p>Gear : {gear}</p>
-                            <input className="border-2" type="number" min="0" id="amount-input" />
-                            <button className="border-2" onClick={() => handleInputSubmit(sellercommunity, fish, document.getElementById(`amount-input`).value)}>Submit</button>
+                            <input className="border-2 w-[150px]  rounded-lg bg-[#FFF7F1]"  type="number" min="0" id="amount-input" />
+                            <button className="  border-2 rounded-lg bg-[#FFF7F1] rounded-lg h-[30px] w-[135px]" onClick={() => handleInputSubmit(sellercommunity, fish, document.getElementById(`amount-input`).value)}>Submit</button>
                           </li>
                         ))}
                       </ul>
@@ -287,36 +316,49 @@ function Sellerprofile() {
 
               
 
-               <div>
-                <h1>working and overtime</h1>
-                  {isEditing ? (
-                      <div>
-                        <input type="number" value={worktime} onChange={(e) => setWorktime(e.target.value)} />
-                        <input type="number" value={overtime} onChange={(e) => setOvertime(e.target.value)} />
-                        <button className='border-2' onClick={()=>updatetime()}>Save</button>
-                      </div>
-                    ) : (
-                      <div>
-                        <p>{worktime}</p>
-                        <p>{overtime}</p>
-                        <button className='border-2' onClick={() => setIsEditing(true)}>Edit</button>
-                      </div>
-                    )}
-               </div>
-
+               
               <br/>
               <br/>
-              <div>
-                <h1>Fishes you can catch</h1>
-                <button  className='border-2' onClick={()=>fetchallFish()}>show fishes</button>
-                
-              
+                          </div>
+                      </div>
+                      
+                      <div className=' w-[500px] flex flex-col gap-5 mb-5'>
+                        <h1 className='text-2xl '>Fishes you can catch</h1>
+                        <div>
+                        <div>
+                          
+                          <button  className='h-[30px] w-[200px] rounded-lg bg-[#E78895]' onClick={()=>fetchallFish()}>show fishes</button>
+                          <br/>
+                          <br/>
+                          {allFish.length===0 ? (
+                              <div></div>
+                            ):
+                            (
+                              <select onChange={(e) => setSelectedFish(e.target.value)} className='rounded-lg'>
+                              {allFish.filter(fish => !sellerFish.includes(fish.name)).map((fish, index) => (
+                                <option key={index} value={fish.name}>
+                                  {fish.name}
+                                </option>
+                              ))}
+                            </select>
 
-                  <br/>
-                    <br/>
-                    <br/>
+                            )
+                            }
+                            <br/>
+                            <h1>New fishes to add</h1>
+                    
 
-                    <div>
+                  
+                    <br/>
+                    <p>{selectedFish}</p>
+                    <button onClick={addFishToSeller} className='border h-[30px] w-[200px] rounded-lg bg-[#E78895]'>Add Fish to Seller</button>
+                        
+
+                          <br/>
+                        <   br/>
+                          <br/>
+
+                       <div className='bg-[#BED1CF] w-[200px] rounded-lg flex flex-col items-center text-center'>
                     <h1>Your fishes</h1>
                     {sellerFish.length===0 ?(
                       <h1>None</h1>
@@ -334,31 +376,19 @@ function Sellerprofile() {
                   
                   }
                     <br/>
-                    <button className='border-2' onClick={()=>updatefishcancatch()}>Update Now</button>
+                    <button className='h-[30px] w-[200px] rounded-lg bg-[#E78895]' onClick={()=>updatefishcancatch()}>Update Now</button>
                   </div>
 
-                  <h1>New fishes to add</h1>
-                    {allFish.length===0 ? (
-                      <div></div>
-                    ):
-                    (
-                      <select onChange={(e) => setSelectedFish(e.target.value)}>
-                      {allFish.filter(fish => !sellerFish.includes(fish.name)).map((fish, index) => (
-                        <option key={index} value={fish.name}>
-                          {fish.name}
-                        </option>
-                      ))}
-                    </select>
-
-                    )
-                    }
-
                   
-                  <br/>
-                  <p>{selectedFish}</p>
-                  <button onClick={addFishToSeller} className='border-2'>Add Fish to Seller</button>
                 
               </div>
+                        </div>
+                      </div>
+
+
+                </div>
+                
+           
                 
                 <br/>
                 <br/>

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth,db,googleprovider} from "../config"; // import auth and firestore from your firebase file
 import { signInWithPopup } from "firebase/auth";
 import {  collection, doc, setDoc } from 'firebase/firestore';
-import Schedule from '../components/schedule';
+
 import logoImage from "../assets/22.jpg";
 import back from "../assets/5096154.jpg";
 
