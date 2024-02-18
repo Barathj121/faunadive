@@ -7,3 +7,8 @@ Run
 
 
 after cloning the git.
+
+
+# live hosting of project
+-> https://faunadive.abhinavramakrishnan.tech/
+
