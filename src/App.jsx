@@ -4,6 +4,8 @@ import Login from './pages/login';
 import BuyerHome from './pages/buyer/buyerhome';
 import SellerHome from './pages/seller/sellerhome';
 import Sellerprofile from './pages/seller/profile';
+import MapComponent from './pages/map/map';
+import Header from './components/header';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
@@ -15,11 +17,14 @@ function App() {
   // III) chatbot integration that answers regarding fishes
 
   return (
+    
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
+        
         <Route path="/Buyers" element={<BuyerHome />} />
         <Route path="/Sellers" element={<SellerHome />} />
+        <Route path="/Map" element={<MapComponent />} />
         {/* <Route path="/sellerprofile" element={<Sellerprofile />}/> */}
       </Routes>
       

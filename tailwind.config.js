@@ -4,11 +4,12 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  fontFamily:{
-    body:['Rubik Doodle Shadow']
-  },
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'sans': ['Poppins', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

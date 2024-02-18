@@ -2,6 +2,7 @@ import { list } from 'postcss';
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc,getDocs,getDoc, query, where, doc, updateDoc } from "firebase/firestore";
 import { auth,db } from "../../config";
+import Header from '../../components/header';
 import {onAuthStateChanged} from "firebase/auth";
 import Sellerprofile from './profile';
 
@@ -79,10 +80,10 @@ useEffect(() => {
 
     return (
         <div>
-            <h1>Seller Home</h1>
             
             
             
+            <Header/>
             <br/>
             <br/>
             <div>
