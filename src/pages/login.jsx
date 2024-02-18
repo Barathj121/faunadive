@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth,db,googleprovider} from "../config"; // import auth and firestore from your firebase file

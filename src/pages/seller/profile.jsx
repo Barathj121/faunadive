@@ -1,4 +1,4 @@
-
+"use client";
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc,getDocs,getDoc, query, where, doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { auth,db } from '../../config';
@@ -163,7 +163,7 @@ function Sellerprofile() {
         });
 
       }
-      const scheduleapi="https://samplefauna.onrender.com/schedule/?community_data=";
+      const scheduleapi="https://faunadive.abhinavramakrishnan.tech/schedule/?community_data=";
       const [schedule, setSchedule] = useState([]);
       const [isLoading, setIsLoading] = useState(false);
       

@@ -1,3 +1,4 @@
+"use client";
 import { list } from 'postcss';
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc,getDocs,getDoc, query, where, doc, updateDoc } from "firebase/firestore";
