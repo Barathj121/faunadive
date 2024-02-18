@@ -2,15 +2,12 @@
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src//*.{js,ts,jsx,tsx}",
   ],
-  fontFamily:{
-    body:['Rubik Doodle Shadow']
-  },
   theme: {
     extend: {
-      colors:{
-       skin:"FFE4C9",
+      fontFamily: {
+        'sans': ['Poppins', 'sans-serif'],
       },
     },
   },
