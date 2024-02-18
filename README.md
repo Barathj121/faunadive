@@ -8,9 +8,7 @@ Run
 
 after cloning the git.
 
-# complete frontend code can be found here , to follow for the backend code follow the below link to see backend
-
--> https://github.com/Harecharan-Developer/firebase_gdsc/tree/branch1
+## both frontend and backend code can be found here , since we hosted backend in azure and are using api you can directly just clone the git and run the above commands start using it
 
 
 # live hosting of project
