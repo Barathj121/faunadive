@@ -54,6 +54,7 @@ function Login(){
         >
           <option value="Buyers">Buyer</option>
           <option value="Sellers">Seller</option>
+          <option value="Map_Server">Port_Server</option>
         </select>
        </div>
        <br/>

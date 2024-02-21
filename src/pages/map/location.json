@@ -1,0 +1,20 @@
+{
+"hotspots": [
+    {
+        "coordinates": [13.210534384132387, 80.48446655273438],
+        "Buoy": "Buoy 1",
+        "fish": "Salmon"
+    },
+    {
+        "coordinates": [13.039345099988836, 80.518798828125],
+        "Buoy": "Buoy 2",
+        "fish": "Tuna"
+    },
+    {
+        "coordinates": [13.095529720741494, 80.419921875],
+        "Buoy": "Buoy 3",
+        "fish": "Shark"
+    }
+    
+]
+}

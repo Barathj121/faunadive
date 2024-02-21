@@ -1,98 +1,73 @@
-"use client";
 import React, { useState, useEffect } from 'react';
-import L, { map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import FishIcon from './Fish_trap.png';
-import Header from '../../components/header';
+import Header_map from '../../components/header_map';
+import './map_advauth.css';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import {icon} from 'leaflet';
+import {db} from '../../config';
+import { collection, getDocs } from 'firebase/firestore';
 
 const MapComponent = () => {
-    const [searchInput, setSearchInput] = useState('');
-    const [map, setMap] = useState(null);
-    const [markers, setMarkers] = useState([]);
-    const [userMarker, setUserMarker] = useState(null);
+    const [searchValue, setSearchValue] = useState('');
+    const [locations, setLocations] = useState([]);
+    const [filteredLocations, setFilteredLocations] = useState([]);
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
 
-    useEffect(() => {
-        const mapOptions = {
-            center: [13.0827, 80.2707],
-            zoom: 10
+  
+        const fetchLocations = async () => {
+          const locationsCol = collection(db, "buoys");
+          const locationsSnapshot = await getDocs(locationsCol);
+          const locationsList = locationsSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            coordinates: [doc.data().location.lat, doc.data().location.lon]
+          }));
+          setLocations(locationsList);
+          setFilteredLocations(locationsList);
+          setLatitude(locationsList[0].coordinates[0]);
+          setLongitude(locationsList[0].coordinates[1]);
         };
+        
+    
 
-        const mapInstance = L.map('map', mapOptions);
-        setMap(mapInstance);
+    
+      const handleSearch = (event) => {
+        const { value } = event.target;
+        setSearchValue(value);
+    
+        const filtered = locations.filter((location) =>
+          location.fish.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredLocations(filtered);
+      };
 
-        const layer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-        mapInstance.addLayer(layer);
+  const customIcon = L.icon({
+    iconUrl: FishIcon,
+    iconSize: [50, 50]
+  });
 
-        const customIcon = L.icon({
-            iconUrl: FishIcon,
-            iconSize: [50, 50]
-        });
-
-        const locations = [
-            [[13.210534384132387, 80.48446655273438], ["Salmon"]],
-            [[13.039345099988836, 80.518798828125], ["Tuna"]],
-            [[13.095529720741494, 80.419921875], ["Shark"]],
-            [[12.973780249064331, 80.44601440429686], ["Swordfish"]]
-        ];
-
-        // Clear existing markers
-        markers.forEach(marker => {
-            marker.removeFrom(mapInstance);
-        });
-
-        // Add new markers
-        const allMarkers = locations.map(location => {
-            const [coords, name] = location;
-            const marker = L.marker(coords, { title: name.toString(), icon: customIcon }).bindPopup(name);
-            marker.addTo(mapInstance);
-            return marker;
-        });
-
-        setMarkers(allMarkers);
-
-        mapInstance.on('click', e => {
-            const newUserMarker = L.marker(e.latlng).addTo(mapInstance);
-            setUserMarker(newUserMarker);
-        });
-
-        return () => {
-            mapInstance.remove();
-        };
-    }, []);
-
-    const filterMarkers = () => {
-        const input = searchInput.toLowerCase();
-        markers.forEach(marker => {
-            const title = marker.options.title.toLowerCase();
-            if (title.includes(input)) {
-                marker.addTo(map);
-            } else {
-                marker.removeFrom(map);
-            }
-        });
-    };
-
-    const closeUserMarker = () => {
-        if (userMarker) {
-            userMarker.removeFrom(map);
-        }
-    };
-
-    return (
-        <div>
-            <Header/>
-            <div id="map" style={{ width: '900px', height: '580px' }}></div>
-            <input
-                type="text"
-                id="searchBar"
-                placeholder="Search by title"
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-            />
-            <button onClick={filterMarkers}>Search</button>
-            <button onClick={closeUserMarker}>Close Marker</button>
-        </div>
-    );
+  return (
+    <div>
+      <Header_map getloc={fetchLocations} />
+      <MapContainer center={[latitude, longitude]} zoom={5}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {filteredLocations.map((location, index) => (
+        <Marker key={location.id} position={location.coordinates}>
+            <Popup>
+            ID: {location.id} <br />
+            Fish: {location.fish}
+            </Popup>
+        </Marker>
+        ))}
+      </MapContainer>
+      <input type="text" className='w-full ' value={searchValue} onChange={handleSearch} placeholder="Search..." />
+    </div>
+  );
 };
 
 export default MapComponent;

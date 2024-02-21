@@ -2,11 +2,11 @@
 import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
-function Header() {
+function Header_server({getloc}) {
 
     const navigate = useNavigate();
     const map = () => {
-        navigate('/Map');
+        navigate('/Map_server');
     }
     const chatbot = () => {
         navigate('/Chatbot');
@@ -14,7 +14,7 @@ function Header() {
     const home = () => {
         navigate('/');
     }
-  
+
 
     return (
         <div>
@@ -28,10 +28,13 @@ function Header() {
         <div>
         <button onClick={()=>chatbot()} className="mt-6 ml-12">Chatbot</button>
         </div>
-      
+        <div className=" flex items-end">
+        <button onClick={()=>getloc()} className="mt-6 ml-12 ">Update/Get Info</button>
+        </div>
+       
         </div>
         </div>
     );
     }
 
-export default Header;
+export default Header_server;
