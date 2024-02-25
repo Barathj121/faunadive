@@ -81,6 +81,8 @@ Further enhancements may include integrating additional environmental sensors in
 
  
 ### 1.	Smart Border Monitoring:
+![image](https://github.com/Barathj121/faunadive/assets/110909380/e83ea2cd-d087-462c-999f-6ddbb1f01c24)
+
 •	Integration of Long-Range (LORA) technology with smart buoys to detect border proximity.
 •	Alerts fishermen when nearing international borders to prevent unintentional crossings.
 ### 2.	Data-driven Fishing Recommendations:
@@ -145,6 +147,37 @@ The Community-Based Fishing Management  App adopts a modular architecture, utili
 •	Database, Authentication, and Real-time Alerts: Firebase
 •	Smart Buoys: Custom hardware with LORA communication
 •	Chatbot and Recommendations: Gemini AI API, open-source LLMs
+
+## Working of App:
+### 1)Border Alert System : 
+ ![image](https://github.com/Barathj121/faunadive/assets/110909380/2fa26597-10f0-42d0-a420-351872be2820)
+
+As Smart Buoy’s are commonly existing in the national river bodies and are present to collect data for predicting weather and pollution we utilize it by adding a LoRa SX1728 modules to each buoys. By adding these we create a zone of communication for each buoys.
+After adding all these by research and study says LoRa has more than 10km to 20km range for transferring data. By this we create a mesh of all buoy’s and connecting all buoy’s together so if a ship comes into contact of one buoy all the buoy’s data can be found. 
+By utilizing this mechanism we hardcode each GPS location of latitude and longitude into the LoRa of each buoy , as we know the international border coordinates once a ship comes into zone of a buoy through the buoy’s location we can identify how far he is from border and send an alert to him , if he is very near to it , it calculates distances based on the coordinates and returns the alert “1” which will be displayed as near the border and sent by which buoy with it's ID
+ 
+### 2) Optimal Fishing Zone identification and Fish type finder:
+![image](https://github.com/Barathj121/faunadive/assets/110909380/3ca3eb13-b13c-4ae1-b94a-e60cd1c93010)
+
+
+As shown above we set up coastal unit which will receive data from all the buoy’s by being in contact to one buoy. Based on the data it acquires from Buoys’ : Ammonia, Nitrate, O2, Temperature, pH, turbidity we predict the optimal zones for the fishes and find the fish weight and fish length available in the zones. Based on the fish length and weight we again predict which kind of fish will be available in that zone. The type of fish might not be reliable all the times but optimal fishing zones identification proves to be accurate and efficient.
+ 
+### 3) Supply Chain Management: 
+As mentioned buyers(from market ) put all their needs and specific requirements into our app and based on that sellers are given suggestions based on that. 
+ ![image](https://github.com/Barathj121/faunadive/assets/110909380/dc703c86-61bc-48cb-afd8-c5ec035240dd)
+
+How suggestions are made is fishermen are asked to join a community and asked their preference of fishes. Once they  join and based on the location of the community and present season considering the breeding season ,market demand of each fishes  etc we suggest the communities to catch the fishes to have maximum profit. Also for each fish we suggest the gears or fishing nets to be used which is again validated from fishermen that maximizes the probability of catching that suggested fish type.
+After the catch is done , the fishermen are asked to update the data capture on how much kg they have caught for each type which is used for supply chain management.
+As there are circumstances where fishermen might catch the fishes that are not suggested or overfish the suggested more than required or his catch go unsold we introduce a community storage platform where each community stores the fishes remained based on the type and update the quantity and type in the app which will be available for buyers to buy from.
+ ![image](https://github.com/Barathj121/faunadive/assets/110909380/0afc0a56-eecd-4aaf-9da3-8b98c84c5f85)
+
+
+Buyers as given freedom have a choice to buy from either storage available or buy from the suggested community as fresh catch but may or may not the meet the quantity requirements.
+He can buy any amount from the storage or buy from the suggested sellers on how much he caught which is upto him.
+By the above the complete supply chain management is managed.
+
+-> This is the complete workflow of the app and how unintentional border crossings are alerted and intentional border crossing is diverted by identifying fishing zones and maximizes profit for fish caught which doesn’t force them to cross.
+
 
 ## Conclusion:
 The Community-Based Fishing Management App addresses critical challenges faced by the fishing community, offering solutions for border monitoring, sustainable fishing practices, and efficient supply chain management. By leveraging technology and data-driven insights, the app aims to promote environmental sustainability and economic stability within the fishing industry.
