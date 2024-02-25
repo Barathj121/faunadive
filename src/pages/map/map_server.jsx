@@ -7,6 +7,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import {icon} from 'leaflet';
 import {db} from '../../config';
 import { collection, getDocs } from 'firebase/firestore';
+import shipocin from './shipicon.png';
 
 const MapComponent = () => {
     const [searchValue, setSearchValue] = useState('');
@@ -106,6 +107,10 @@ const MapComponent = () => {
     iconUrl: FishIcon,
     iconSize: [50, 50]
   });
+  const shipcon = L.icon({
+    iconUrl: shipocin,
+    iconSize: [50, 50]
+  });
 
   return (
     <div>
@@ -125,7 +130,7 @@ const MapComponent = () => {
         
         ))}
         {shiplocations.map((ship, index) => (
-        <Marker  key={ship.id} position={ship.coordinates}  onClick={()=>handleShipClick(ship)}>
+        <Marker icon={shipcon} key={ship.id} position={ship.coordinates}  onClick={()=>handleShipClick(ship)}>
             <Popup>
             ID: {ship.id} <br />
             Fish: {ship.alert.status}
