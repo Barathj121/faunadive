@@ -4,7 +4,9 @@
   
   npm install firebase 
   
-  npm install leaflet
+  npm install react-leaflet
+
+  npm install react react-dom leaflet
 ```
 
 
