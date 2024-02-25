@@ -120,9 +120,9 @@ useEffect(() => {
             <br/>
             
             <div className='flex-col flex items-center justify-center'>
-              <div className='flex flex-row '>
+              <div className='flex flex-row gap-3'>
               <img src={profileimage} className='h-[50px] w-[50px]'></img>
-              <button onClick={()=>toggleprofile()} className=' border-2 bg-[#E78895] text-center h-[40px] rounded-lg w-[200px] w-full'>Click to view profile</button>
+              <button onClick={()=>toggleprofile()} className=' border-2 bg-[#E78895] text-center h-[40px] rounded-lg w-[210px] w-full'>Click to view profile</button>
               </div>
               <br/>
               <br/>

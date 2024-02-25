@@ -1,4 +1,5 @@
 "use client";
+"use client";
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc,getDocs,getDoc, query, where, doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { auth,db } from '../../config';
@@ -163,7 +164,7 @@ function Sellerprofile() {
         });
 
       }
-      const scheduleapi="https://faunadive.abhinavramakrishnan.tech/schedule/?community_data=";
+      const scheduleapi="https://samplefauna.onrender.com/schedule/?community_data=";
       const [schedule, setSchedule] = useState([]);
       const [isLoading, setIsLoading] = useState(false);
       
@@ -220,7 +221,7 @@ function Sellerprofile() {
 
 
     return (
-        <div className='bg-[#FFE4C9] rounded-lg h-full w-[1200px]   flex flex-col'>
+        <div className='bg-[#FFE4C9] rounded-lg h-full w-[1260px]   flex flex-col'>
  
           <div className='flex flex-row gap-2 ml-2 ml-auto mt-2'>
             <img src={refreshicon} className='h-[35px] w-[35px]'></img>
@@ -234,7 +235,7 @@ function Sellerprofile() {
                 <br/>
                 <div >
                   <div className='flex flex-row gap-2'> 
-                  <h1 className='  gap-2 border-2 bg-[#BED1CF] w-[20%] h-[10%] rounded-[200px] ml-2 text-center'>Your Community  : {sellercommunity}</h1>
+                  <h1 className='  gap-2 border-2 bg-[#BED1CF] w-[19%] h-[10%] rounded-[200px] ml-2 text-center'>Your Community  : {sellercommunity}</h1>
                   <button className='border-2 bg-[#E78895] w-[15%] h-[10%] rounded-[200px] ml-2 text-center' onClick={()=>fetchcommunity()}>Load community</button>
                   </div>
                   <br/>
@@ -311,75 +312,68 @@ function Sellerprofile() {
                     </div>
                   )}
                 </div>
-                <br/>
-                <br/>
-            
-
-              
-
-               
-              <br/>
-              <br/>
+                
                           </div>
                       </div>
                       
-                      <div className=' w-[500px] flex flex-col gap-5 mb-5'>
-                        <h1 className='text-2xl '>Fishes you can catch</h1>
-                        <div>
-                        <div>
-                          
-                          <button  className='h-[30px] w-[200px] rounded-lg bg-[#E78895]' onClick={()=>fetchallFish()}>show fishes</button>
-                          <br/>
-                          <br/>
-                          {allFish.length===0 ? (
-                              <div></div>
-                            ):
-                            (
-                              <select onChange={(e) => setSelectedFish(e.target.value)} className='rounded-lg'>
-                              {allFish.filter(fish => !sellerFish.includes(fish.name)).map((fish, index) => (
-                                <option key={index} value={fish.name}>
-                                  {fish.name}
-                                </option>
-                              ))}
-                            </select>
+  <div className=' w-[500px] flex flex-col gap-5 mb-5'>
+    <h1 className='text-2xl '>Fishes you can catch</h1>
+    <div>
+    <div>
+      
+      
 
-                            )
-                            }
-                            <br/>
-                            <h1>New fishes to add</h1>
+
+
+<br/>
                     
-
-                  
-                    <br/>
-                    <p>{selectedFish}</p>
-                    <button onClick={addFishToSeller} className='border h-[30px] w-[200px] rounded-lg bg-[#E78895]'>Add Fish to Seller</button>
-                        
-
-                          <br/>
-                        <   br/>
-                          <br/>
-
-                       <div className='bg-[#BED1CF] w-[200px] rounded-lg flex flex-col items-center text-center'>
-                    <h1>Your fishes</h1>
-                    {sellerFish.length===0 ?(
-                      <h1>None</h1>
-                    ):
-                    (
-                      <div>
-                      {sellerFish.map((fish, index) => (
-                        <div key={index}>
-                          <p>{fish}</p>
-                          
-                        </div>
-                      ))}
-                      </div>
-                    )
-                  
-                  }
-                    <br/>
-                    <button className='h-[30px] w-[200px] rounded-lg bg-[#E78895]' onClick={()=>updatefishcancatch()}>Update Now</button>
-                  </div>
-
+<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <div>
+    {/* Content of the first column */}
+    <div className='bg-[#D9D9D9] w-[200px] rounded-lg flex flex-col items-center text-center mt-5 mr-6'>
+      <br></br>
+      <h1 className=' text-2xl'>Your Fishes</h1>
+      <br></br>
+      {sellerFish.length === 0 ? (
+        <h1>None</h1>
+      ) : (
+        <div>
+          {sellerFish.map((fish, index) => (
+            <div key={index}>
+              <p>{fish}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      <br/>
+      <button className='h-[30px] w-[160px] rounded-lg bg-[#E78895]' onClick={()=>updatefishcancatch()}>Update Now</button>
+    <br></br>
+    </div>
+  </div>
+  <div className='border-4 rounded-lg bg-[#D9D9D9] border-[#D9D9D9] ml-[1%] h-[100%] w-[50%] mt-5' style={{ marginLeft: '20px' }}>
+  {/* Content of the second column */}
+  <br/>
+  <button className='h-[30px] w-[240px] rounded-lg bg-[#E78895]' onClick={()=>fetchallFish()}>Show Fishes</button>
+  <br/>
+  <br/>
+  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  {allFish.length===0 ? (
+    <div></div>
+  ) : (
+    <select onChange={(e) => setSelectedFish(e.target.value)} className='rounded-lg' style={{ marginRight: '20px' }}>
+      {allFish.filter(fish => !sellerFish.includes(fish.name)).map((fish, index) => (
+        <option key={index} value={fish.name}>
+          {fish.name}
+        </option>
+      ))}
+    </select>
+  )}
+  <button onClick={addFishToSeller} className='border h-[30px] w-[120px] rounded-lg bg-[#ffffff]'>Add to Fishes</button>
+</div>
+  <br/>
+  </div>
+</div>
+                       
                   
                 
               </div>
