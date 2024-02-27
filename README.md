@@ -12,11 +12,17 @@
 
 -> after cloning the git.
 
-## both frontend and backend code can be found here , since we hosted backend in azure and are using api you can directly just clone the git and run the above commands start using it
+## both frontend and backend code can be found here , since we hosted backend in some other platform and are using api you can directly just clone the git and run the above commands start using it
 
 
 # live hosting of project
 -> https://faunadive.abhinavramakrishnan.tech/
+
+<br/>
+
+# Demo video of project
+
+-> https://www.youtube.com/watch?v=-mjwKeuItqs&t=73s
 
 <br/>
 
