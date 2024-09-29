@@ -27,9 +27,9 @@
 <br/>
 
 
-# GDSC Solutions Challenge
 
-## Project Fauna Dive 
+
+# Project Fauna Dive 
 
 A Fisherman’s end to end application that saves him from crossing borders to finding where fishes exist and having the best supply chain optimization for the market to maximize each fisherman’s profit.
 
